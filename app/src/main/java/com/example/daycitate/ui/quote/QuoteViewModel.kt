@@ -2,7 +2,9 @@ package com.example.daycitate.ui.quote
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daycitate.data.FavoriteQuoteEntity
 import com.example.daycitate.data.Quote
+import com.example.daycitate.data.QuoteDao
 import com.example.daycitate.data.RetrofitInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +20,7 @@ data class QuoteUiState(
 )
 
 
-class QuoteViewModel: ViewModel() {
+class QuoteViewModel(private val quoteDao: QuoteDao): ViewModel() {
 
     private val _uiState = MutableStateFlow(QuoteUiState())
 
@@ -47,6 +49,19 @@ class QuoteViewModel: ViewModel() {
                 _uiState.update { currentState ->
                     currentState.copy(isLoading = false, error = "An unexpected error occurred.")
                 }
+            }
+        }
+    }
+
+    fun addToFavorites() {
+        val currentQuote = _uiState.value.quote
+        if (currentQuote != null) {
+            viewModelScope.launch {
+                val favoriteQuote = FavoriteQuoteEntity(
+                    quoteText = currentQuote.quoteText,
+                    authorName = currentQuote.authorName,
+                )
+                quoteDao.insertQuote(favoriteQuote)
             }
         }
     }

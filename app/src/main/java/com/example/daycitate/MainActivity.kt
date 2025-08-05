@@ -16,15 +16,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.daycitate.data.AppDatabase
 import com.example.daycitate.data.Quote
 import com.example.daycitate.ui.quote.QuoteScreen
 import com.example.daycitate.ui.quote.QuoteUiState
 import com.example.daycitate.ui.quote.QuoteViewModel
+import com.example.daycitate.ui.quote.QuoteViewModelFactory
 import com.example.daycitate.ui.theme.DayCitateTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: QuoteViewModel by viewModels()
+    private val viewModel: QuoteViewModel by viewModels {
+        QuoteViewModelFactory(
+            AppDatabase.getDatabase(this).quoteDao()
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +45,8 @@ class MainActivity : ComponentActivity() {
 
                     QuoteScreen(
                         uiState = uiState,
-                        onRefresh = { viewModel.loadNewQuote() }
+                        onRefresh = { viewModel.loadNewQuote() },
+                        onAddToFavorites = { viewModel.addToFavorites() }
                     )
                 }
             }
@@ -51,6 +58,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     DayCitateTheme {
-        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {})
+        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {}, onAddToFavorites = {})
     }
 }

@@ -25,6 +25,7 @@ import com.example.daycitate.data.Quote
 fun QuoteScreen(
     uiState: QuoteUiState,
     onRefresh: () -> Unit,
+    onAddToFavorites: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -33,7 +34,11 @@ fun QuoteScreen(
         contentAlignment = Alignment.Center
     ) {
         if (uiState.quote != null) {
-            QuoteContent(quote = uiState.quote, onRefresh = onRefresh)
+            QuoteContent(
+                quote = uiState.quote,
+                onRefresh = onRefresh,
+                onAddToFavorites = onAddToFavorites
+            )
         } else if (uiState.error != null) {
             ErrorView(message = uiState.error, onRetry = onRefresh)
         }
@@ -45,7 +50,11 @@ fun QuoteScreen(
 }
 
 @Composable
-fun QuoteContent(quote: Quote, onRefresh: () -> Unit) {
+fun QuoteContent(
+    quote: Quote,
+    onRefresh: () -> Unit,
+    onAddToFavorites: () -> Unit,
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -70,6 +79,10 @@ fun QuoteContent(quote: Quote, onRefresh: () -> Unit) {
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = onAddToFavorites) {
+            Text("Add to Favorites")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onRefresh) {
             Text("Refresh Quote")
         }
