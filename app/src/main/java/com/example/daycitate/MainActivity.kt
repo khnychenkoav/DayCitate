@@ -1,5 +1,6 @@
 package com.example.daycitate
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -46,7 +47,11 @@ class MainActivity : ComponentActivity() {
                     QuoteScreen(
                         uiState = uiState,
                         onRefresh = { viewModel.loadNewQuote() },
-                        onAddToFavorites = { viewModel.addToFavorites() }
+                        onAddToFavorites = { viewModel.addToFavorites() },
+                        onShowFavorites = {
+                            val intent = Intent(this@MainActivity, FavoritesActivity::class.java)
+                            startActivity(intent)
+                        }
                     )
                 }
             }
@@ -58,6 +63,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     DayCitateTheme {
-        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {}, onAddToFavorites = {})
+        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {}, onAddToFavorites = {}, onShowFavorites = {})
     }
 }

@@ -3,6 +3,7 @@ package com.example.daycitate.ui.quote
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,7 @@ fun QuoteScreen(
     uiState: QuoteUiState,
     onRefresh: () -> Unit,
     onAddToFavorites: () -> Unit,
+    onShowFavorites: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -37,7 +39,8 @@ fun QuoteScreen(
             QuoteContent(
                 quote = uiState.quote,
                 onRefresh = onRefresh,
-                onAddToFavorites = onAddToFavorites
+                onAddToFavorites = onAddToFavorites,
+                onShowFavorites = onShowFavorites,
             )
         } else if (uiState.error != null) {
             ErrorView(message = uiState.error, onRetry = onRefresh)
@@ -54,6 +57,7 @@ fun QuoteContent(
     quote: Quote,
     onRefresh: () -> Unit,
     onAddToFavorites: () -> Unit,
+    onShowFavorites: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -79,12 +83,18 @@ fun QuoteContent(
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = onAddToFavorites) {
-            Text("Add to Favorites")
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(onClick = onAddToFavorites) {
+                Text("Favorite")
+            }
+            Button(onClick = onRefresh) {
+                Text("Refresh")
+            }
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = onRefresh) {
-            Text("Refresh Quote")
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(onClick = onShowFavorites) {
+            Text("Show Favorites")
         }
     }
 }

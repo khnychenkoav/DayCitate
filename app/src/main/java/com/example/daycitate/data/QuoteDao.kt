@@ -4,14 +4,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuote(quote: FavoriteQuoteEntity)
 
-    @Query("SELECT * FROM favorite_quotes")
-    fun getAllQuotes(): List<FavoriteQuoteEntity>
+    @Query("SELECT * FROM favorite_quotes ORDER BY id DESC")
+    fun getAllQuotes(): Flow<List<FavoriteQuoteEntity>>
 
     @Query("DELETE FROM favorite_quotes WHERE id = :quoteId")
     suspend fun deleteQuoteById(quoteId: Int)
