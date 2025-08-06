@@ -30,8 +30,9 @@ class FavoritesActivity : AppCompatActivity() {
             finish()
         }
         val recyclerView: RecyclerView = findViewById(R.id.favoritesRecyclerView)
-        val adapter = FavoritesAdapter()
-
+        val adapter = FavoritesAdapter { quoteToDelete ->
+            viewModel.delete(quoteToDelete)
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
