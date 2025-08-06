@@ -1,6 +1,7 @@
 package com.example.daycitate
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,10 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_favorites)
+        val backButton: Button = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            finish()
+        }
         val recyclerView: RecyclerView = findViewById(R.id.favoritesRecyclerView)
         val adapter = FavoritesAdapter()
 
