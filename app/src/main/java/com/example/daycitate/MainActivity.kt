@@ -51,6 +51,10 @@ class MainActivity : ComponentActivity() {
                         onShowFavorites = {
                             val intent = Intent(this@MainActivity, FavoritesActivity::class.java)
                             startActivity(intent)
+                        },
+                        onNewQuote = {
+                            val intent = Intent(this@MainActivity, NewQuoteActivity::class.java)
+                            startActivity(intent)
                         }
                     )
                 }
@@ -63,6 +67,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     DayCitateTheme {
-        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {}, onAddToFavorites = {}, onShowFavorites = {})
+        QuoteScreen(uiState = QuoteUiState(quote = Quote("Hello World", "Android")), onRefresh = {}, onAddToFavorites = {}, onShowFavorites = {}, onNewQuote = {})
     }
 }

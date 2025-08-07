@@ -17,4 +17,7 @@ interface QuoteDao {
     @Query("DELETE FROM favorite_quotes WHERE id = :quoteId")
     suspend fun deleteQuoteById(quoteId: Int)
 
+    @Query("DELETE FROM favorite_quotes WHERE quoteText = :quoteContent")
+    suspend fun deleteQuoteByContent(quoteContent: String)
+
 }

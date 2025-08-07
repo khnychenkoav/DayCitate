@@ -28,6 +28,7 @@ fun QuoteScreen(
     onRefresh: () -> Unit,
     onAddToFavorites: () -> Unit,
     onShowFavorites: () -> Unit,
+    onNewQuote: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -41,6 +42,7 @@ fun QuoteScreen(
                 onRefresh = onRefresh,
                 onAddToFavorites = onAddToFavorites,
                 onShowFavorites = onShowFavorites,
+                onNewQuote = onNewQuote,
             )
         } else if (uiState.error != null) {
             ErrorView(message = uiState.error, onRetry = onRefresh)
@@ -58,6 +60,7 @@ fun QuoteContent(
     onRefresh: () -> Unit,
     onAddToFavorites: () -> Unit,
     onShowFavorites: () -> Unit,
+    onNewQuote: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -93,8 +96,13 @@ fun QuoteContent(
         }
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = onShowFavorites) {
-            Text("Show Favorites")
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(onClick = onShowFavorites) {
+                Text("Show Favorites")
+            }
+            Button(onClick = onNewQuote) {
+                Text("New Quote")
+            }
         }
     }
 }
