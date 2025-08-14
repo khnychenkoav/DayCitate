@@ -18,7 +18,7 @@ class FavoritesActivity : AppCompatActivity() {
 
     private val viewModel: FavoritesViewModel by viewModels {
         FavoritesViewModelFactory(
-            AppDatabase.getDatabase(this).quoteDao()
+            DependencyContainer.getRepository(this)
         )
     }
     override fun onCreate(savedInstanceState: Bundle?) {

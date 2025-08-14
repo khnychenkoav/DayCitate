@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: QuoteViewModel by viewModels {
         QuoteViewModelFactory(
-            AppDatabase.getDatabase(this).quoteDao()
+            DependencyContainer.getRepository(this)
         )
     }
 

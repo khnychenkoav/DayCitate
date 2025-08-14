@@ -16,7 +16,7 @@ class NewQuoteActivity : ComponentActivity() {
 
     private val viewModel: NewQuoteViewModel by viewModels {
         NewQuoteViewModelFactory(
-            AppDatabase.getDatabase(this).quoteDao()
+            DependencyContainer.getRepository(this)
         )
     }
 

@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.daycitate.data.FavoriteQuoteEntity
 import com.example.daycitate.data.Quote
-import com.example.daycitate.data.QuoteDao
-import com.example.daycitate.data.RetrofitInstance
+import com.example.daycitate.data.QuoteRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +19,7 @@ data class QuoteUiState(
 )
 
 
-class QuoteViewModel(private val quoteDao: QuoteDao): ViewModel() {
+class QuoteViewModel(private val quoteRepository: QuoteRepository): ViewModel() {
 
     private val _uiState = MutableStateFlow(QuoteUiState())
 
@@ -37,7 +36,7 @@ class QuoteViewModel(private val quoteDao: QuoteDao): ViewModel() {
             }
 
             try {
-                val newQuote = RetrofitInstance.api.getRandomQuote()
+                val newQuote = quoteRepository.getRandomQuote()
                 _uiState.update { currentState ->
                     currentState.copy(isLoading = false, quote = newQuote)
                 }
@@ -61,7 +60,7 @@ class QuoteViewModel(private val quoteDao: QuoteDao): ViewModel() {
                     quoteText = currentQuote.quoteText,
                     authorName = currentQuote.authorName,
                 )
-                quoteDao.insertQuote(favoriteQuote)
+                quoteRepository.saveQuoteToFavorites(favoriteQuote)
             }
         }
     }
